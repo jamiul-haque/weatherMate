@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/constants.dart';
+import 'package:weather_app/constant/constants.dart';
 import 'package:weather_app/page/welcome_page.dart';
 
 class GetStated extends StatelessWidget {

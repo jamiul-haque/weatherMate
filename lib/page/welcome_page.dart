@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/constants.dart';
+import 'package:weather_app/constant/constants.dart';
 import 'package:weather_app/page/city.dart';
+import 'package:weather_app/page/home_page.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -10,13 +11,14 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+  List<City> cityes =
+      City.citysList.where((city) => city.isDefault == false).toList();
+  List<City> selectedcityes = City.getSelectedCityes();
+  List<String> selectedCity = [];
+
+  Constants myConstants = Constants();
   @override
   Widget build(BuildContext context) {
-    List<City> cityes =
-        City.citysList.where((city) => city.isDefault == false).toList();
-    List<City> selectedcityes = City.getSelectedCityes();
-
-    Constants myConstants = Constants();
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -55,6 +57,11 @@ class _WelcomeState extends State<Welcome> {
                     onTap: () {
                       setState(() {
                         cityes[index].isSelected = !cityes[index].isSelected;
+                        if (cityes[index].isSelected) {
+                          selectedCity.add(cityes[index].city);
+                        } else {
+                          selectedCity.remove(cityes[index].city);
+                        }
                       });
                     },
                     child: Image.asset(
@@ -84,7 +91,12 @@ class _WelcomeState extends State<Welcome> {
         backgroundColor: myConstants.secondaryColor,
         child: const Icon(Icons.pin_drop),
         onPressed: () {
-          print(cityes);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => HomePage(
+                        cityList: selectedCity,
+                      )));
         },
       ),
     );
