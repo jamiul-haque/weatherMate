@@ -4,6 +4,9 @@ import 'package:weather_app/models/weather_date_model.dart';
 import 'package:weather_app/page/city.dart';
 import 'package:weather_app/service/api_service.dart';
 
+import '../widgets/weather_item.dart';
+import 'detail_page.dart';
+
 class HomePage extends StatefulWidget {
   List<String> cityList;
   HomePage({Key? key, required this.cityList}) : super(key: key);
@@ -36,6 +39,7 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: false,
         titleSpacing: 0,
@@ -201,53 +205,112 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                weatherItem(),
+              children: const [
+                weatherItem(
+                  text: 'Win Speed',
+                  value: 1.7,
+                  unit: 'km/h',
+                  imageUrl: 'assets/windspeed.png',
+                ),
+                weatherItem(
+                  text: 'Humidity',
+                  value: 50,
+                  unit: '',
+                  imageUrl: 'assets/humidity.png',
+                ),
+                weatherItem(
+                  text: 'Max-Temp',
+                  value: 50,
+                  unit: ' C',
+                  imageUrl: 'assets/max-temp.png',
+                ),
               ],
             ),
           ),
+          const SizedBox(
+            height: 50,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Today',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                ),
+              ),
+              Text(
+                'Next 7 Days',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  color: myConstants.primaryColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DetailPage()));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      margin:
+                          const EdgeInsets.only(right: 20, bottom: 10, top: 10),
+                      width: 80,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: const Offset(0, 1),
+                              blurRadius: 5,
+                              color: Colors.black54.withOpacity(.2),
+                            ),
+                          ]),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '50 C',
+                            style: TextStyle(
+                                color: myConstants.primaryColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18),
+                          ),
+                          Image.asset(
+                            'assets/thunderstorm.png',
+                            width: 30,
+                          ),
+                          Text(
+                            'Sun',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: myConstants.primaryColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+          ),
         ],
       ),
-    );
-  }
-}
-
-class weatherItem extends StatelessWidget {
-  const weatherItem({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text(
-          'wind Speed',
-          style: TextStyle(
-            color: Colors.black54,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.all(20),
-          height: 60,
-          width: 60,
-          decoration: const BoxDecoration(
-            color: Color(0xffE0E8FB),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-          ),
-          child: Image.asset('assets/windspeed.png'),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        const Text(
-          '1.7 kmh',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        )
-      ],
     );
   }
 }

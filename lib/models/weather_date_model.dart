@@ -5,12 +5,13 @@ class WeatherDataModel {
   final String icondata;
   final double temp;
 
-  WeatherDataModel(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.temp,
-      required this.icondata});
+  WeatherDataModel({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.temp,
+    required this.icondata,
+  });
 
   factory WeatherDataModel.fromMap(Map<String, dynamic> json) {
     final data = json['main'];
