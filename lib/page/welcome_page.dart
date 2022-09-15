@@ -18,6 +18,16 @@ class _WelcomeState extends State<Welcome> {
 
   Constants myConstants = Constants();
   @override
+  void initState() {
+    cityes.forEach((element) {
+      if (element.isSelected) {
+        selectedCity.add(element.city);
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
@@ -25,7 +35,7 @@ class _WelcomeState extends State<Welcome> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: myConstants.secondaryColor,
-        title: Text('${selectedcityes.length} selected'),
+        title: Text('${selectedCity.length} selected'),
         // title: Text(selectedcityes.length.toString() + ' selected'),
       ),
       body: ListView.builder(

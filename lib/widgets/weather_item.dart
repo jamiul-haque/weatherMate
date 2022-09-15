@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class weatherItem extends StatelessWidget {
-  const weatherItem(
-      {Key? key,
-      required this.text,
-      required this.value,
-      required this.unit,
-      required this.imageUrl})
-      : super(key: key);
+  const weatherItem({
+    Key? key,
+    required this.text,
+    required this.value,
+    required this.unit,
+    required this.imageUrl,
+  }) : super(key: key);
   final double value;
   final String text;
   final String unit;

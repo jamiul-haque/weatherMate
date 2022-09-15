@@ -3,7 +3,7 @@ import 'package:weather_app/constant/constants.dart';
 import 'package:weather_app/models/weather_date_model.dart';
 import 'package:weather_app/page/city.dart';
 import 'package:weather_app/service/api_service.dart';
-
+import '../constant/common_content.dart';
 import '../widgets/weather_item.dart';
 import 'detail_page.dart';
 
@@ -25,12 +25,14 @@ class _HomePageState extends State<HomePage> {
   // initiatilization
   String imageUrl = '';
   String location = '';
+  Map locationLat = {};
 
   var selectedCityes = City.getSelectedCityes();
 
   @override
   void initState() {
     location = widget.cityList[0];
+    locationLat = commonContent(location);
     super.initState();
   }
 
@@ -79,7 +81,9 @@ class _HomePageState extends State<HomePage> {
                         }).toList(),
                         onChanged: (String? newValue) {
                           setState(() {
-                            location = newValue!;
+                            locationLat = commonContent(newValue!);
+                            print(locationLat);
+                            location = newValue;
                           });
                         }),
                   ),
@@ -96,8 +100,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget futureData() {
+    print(locationLat);
     return FutureBuilder<WeatherDataModel?>(
-        future: ApiService().getCurrentWeather(lat: 44.34, lon: 10.99),
+        future: ApiService().getCurrentWeather(
+            lat: locationLat['lat'], lon: locationLat['lon']),
         builder: (context, AsyncSnapshot<WeatherDataModel?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -124,9 +130,9 @@ class _HomePageState extends State<HomePage> {
             location,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),
-          const Text(
-            "This is description",
-            style: TextStyle(
+          Text(
+            model.description,
+            style: const TextStyle(
               color: Colors.grey,
               fontSize: 16,
             ),
@@ -158,12 +164,12 @@ class _HomePageState extends State<HomePage> {
                     width: 150,
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   bottom: 30,
                   left: 20,
                   child: Text(
-                    "WeatherStateName",
-                    style: TextStyle(
+                    model.description,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                     ),
@@ -178,7 +184,8 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
-                          '40',
+                          (model.temp - 273.15).toStringAsFixed(0),
+                          // "${(model.temp - 273.15).toStringAsFixed(0)}",
                           style: TextStyle(
                             fontSize: 80,
                             fontWeight: FontWeight.bold,
@@ -205,22 +212,22 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 weatherItem(
                   text: 'Win Speed',
-                  value: 1.7,
-                  unit: 'km/h',
+                  value: model.windspeed,
+                  unit: ' km/h',
                   imageUrl: 'assets/windspeed.png',
                 ),
                 weatherItem(
                   text: 'Humidity',
-                  value: 50,
+                  value: model.humidity.toDouble(),
                   unit: '',
                   imageUrl: 'assets/humidity.png',
                 ),
                 weatherItem(
                   text: 'Max-Temp',
-                  value: 50,
+                  value: (model.temp_max - 273.15).roundToDouble(),
                   unit: ' C',
                   imageUrl: 'assets/max-temp.png',
                 ),
@@ -257,6 +264,7 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
+                itemCount: 4,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
@@ -285,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '50 C',
+                            "${(model.temp - 273.15).toStringAsFixed(0)} C",
                             style: TextStyle(
                                 color: myConstants.primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -296,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                             width: 30,
                           ),
                           Text(
-                            'Sun',
+                            model.title,
                             style: TextStyle(
                               fontSize: 18,
                               color: myConstants.primaryColor,

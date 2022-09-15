@@ -13,6 +13,7 @@ class ApiService {
     );
     if (response.statusCode == 200) {
       var jsondata = jsonDecode(response.body);
+      print(jsondata);
       return WeatherDataModel.fromMap(jsondata);
     } else {
       return null;

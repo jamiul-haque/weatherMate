@@ -54,7 +54,7 @@ class _DetailPageState extends State<DetailPage> {
               width: size.width,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 7,
+                  itemCount: 5,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -233,7 +233,7 @@ class _DetailPageState extends State<DetailPage> {
                       height: 200,
                       width: size.width * .9,
                       child: ListView.builder(
-                          itemCount: 4,
+                          itemCount: 2,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
                               margin: const EdgeInsets.only(
