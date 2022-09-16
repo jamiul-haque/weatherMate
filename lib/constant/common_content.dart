@@ -48,3 +48,69 @@ Map commonContent(String cityName) {
       }
   }
 }
+
+String getWeatherIcon({required String iconValue}) {
+  switch (iconValue) {
+    case '02d':
+      {
+        return "assets/heavycloud.png";
+      }
+    case '10d':
+      {
+        return "assets/heavyrain.png";
+      }
+    case '01d':
+      {
+        return "assets/clear.png";
+      }
+    case '04d':
+      {
+        return "assets/showers.png";
+      }
+    case '11d':
+      {
+        return "assets/lightrain.png";
+      }
+    case '03d':
+      {
+        return "assets/heavycloud.png";
+      }
+    default:
+      {
+        return "assets/snow.png";
+      }
+  }
+}
+
+String getDayName({required int value}) {
+  switch (value) {
+    case 0:
+      {
+        return "Sat";
+      }
+    case 1:
+      {
+        return "Sun";
+      }
+    case 2:
+      {
+        return "Mon";
+      }
+    case 3:
+      {
+        return "Tue";
+      }
+    case 4:
+      {
+        return "Wed";
+      }
+    case 5:
+      {
+        return "Thu";
+      }
+    default:
+      {
+        return "Fri";
+      }
+  }
+}

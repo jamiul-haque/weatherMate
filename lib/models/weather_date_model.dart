@@ -32,7 +32,7 @@ class WeatherDataModel {
       temp_min: data['temp_min'],
       temp_max: data['temp_max'],
       humidity: data['humidity'],
-      windspeed: data1['speed'],
+      windspeed: data1['speed'].toDouble(),
     );
   }
 }

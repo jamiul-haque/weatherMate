@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:weather_app/constant/constants.dart';
 import 'package:weather_app/models/weather_date_model.dart';
@@ -19,6 +21,7 @@ class HomePage extends StatefulWidget {
 final Shader linearGradient = const LinearGradient(
   colors: <Color>[Color(0xffABCFF2), Color(0xff9AC6F3)],
 ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+final random = Random();
 
 class _HomePageState extends State<HomePage> {
   Constants myConstants = Constants();
@@ -33,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     location = widget.cityList[0];
     locationLat = commonContent(location);
+
     super.initState();
   }
 
@@ -160,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                   top: -40,
                   left: 20,
                   child: Image.asset(
-                    'assets/clear.png',
+                    getWeatherIcon(iconValue: model.icondata),
                     width: 150,
                   ),
                 ),
@@ -264,14 +268,16 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 4,
+                itemCount: 7,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const DetailPage()));
+                              builder: (context) => DetailPage(
+                                    address: location,
+                                  )));
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -293,7 +299,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${(model.temp - 273.15).toStringAsFixed(0)} C",
+                            "${(random.nextInt(30) + 15).toString()}" ' C',
                             style: TextStyle(
                                 color: myConstants.primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -304,7 +310,7 @@ class _HomePageState extends State<HomePage> {
                             width: 30,
                           ),
                           Text(
-                            model.title,
+                            getDayName(value: index),
                             style: TextStyle(
                               fontSize: 18,
                               color: myConstants.primaryColor,
